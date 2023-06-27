@@ -5,8 +5,9 @@ include 'db.php';
 // if($_SESSION['status_login'] != true){
 // 	echo '<script>window.location="login.php"</script>';
 // }
-$user=mysqli_query($conn,"SELECT * FROM data_user where id =12");
-$data_user=mysqli_fetch_object($user);
+// $user=mysqli_query($conn,"SELECT * FROM data_user where id ='".$_SESSION['id_user']."'");
+// $data_user=mysqli_fetch_object($user);
+
 $SqlPeriode="";
 $awalTgl="";
 $akhirTgl="";
@@ -32,10 +33,9 @@ if(isset($_POST['btnTampil'])){
     <title>Histori Data Kandang</title>
     <!-- Boxicons -->
 	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
-	<!-- icon google -->
-	<link rel="stylesheet" href="assets/style.css">
-	<!-- buat grafik -->
-    <!-- tabel data user -->
+	
+    <link rel="stylesheet" href="assets/style.css">
+<!-- tabel data user -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css"> 
   <!-- javascript tabel data user-->
@@ -43,7 +43,7 @@ if(isset($_POST['btnTampil'])){
     <script defer src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script defer src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
     <script defer src="assets/js/data-user.js"></script> 
-    
+
 </head>
 <body>
     <!-- SIDEBAR -->
@@ -54,21 +54,22 @@ if(isset($_POST['btnTampil'])){
 		</a>
 		<ul class="side-menu top">
 			<li >
-				<a href="index.php">
+				<a href="index_admin.php">
 					<i class='bx bxs-dashboard' ></i>
 					<span class="text">Dashboard</span>
 				</a>
 			</li>
 			<li class="active">
-				<a href="histori_user.php">
+				<a href="histori_admin.php">
                     <i class='bx bx-history'></i>
 					<span class="text">History</span>
 				</a>
 			</li>
 			<li>
-				<a href="profil_user.php">
-                    <i class='bx bx-user' ></i>
-					<span class="text">Profil</span>
+				<a href="data_user.php">
+                    
+                <i class='bx bxs-user-detail'></i>
+					<span class="text">Data User</span>
 				</a>
 			</li>
 			<li>
@@ -85,13 +86,14 @@ if(isset($_POST['btnTampil'])){
 		<!-- NAVBAR -->
 		<nav>
 			<i class='bx bx-menu' ></i>
-			<b><?php echo ucfirst($data_user->nama_depan)." ".ucfirst($data_user->nama_belakang) ?></b></b>
 			
+			<b>Admin</b>
 			<div class="nav-right">
 				<input type="checkbox" id="switch-mode" hidden>
 				<label for="switch-mode" class="switch-mode"></label>
-				<a class="profile"href="assets/foto/<?php echo $data_user->foto ?>" target="_blank"><img src="assets/foto/<?php echo $data_user->foto ?>"  ></a>
-			
+				<a href="#" class="profile">
+					<img src="assets/img/yusuf.jpg">
+				</a>
 			</div>
 			
 		</nav>
@@ -101,21 +103,21 @@ if(isset($_POST['btnTampil'])){
 		<!-- MAIN -->
 		<main>
 		<div class="tabel">
-            <center><div class="tabel-title">Tabel Data Uji</div></center>
-            <h4>Data Uji Tanggal <?php echo $tglAwal ?>  s/d  <?php echo $tglAkhir ?></h4>
-            <form action="<?php $_SERVER['PHP_SELF']; ?>" method="POST" name="form10" target="_SELF">
-                <div class="row" style="margin-bottom:20px;margin-top:20px">
-                    <div class="col-lg-3">
-                        <input type="date" style="margin-top:10px" name="txtTglAwal" class="form-control" value="<?php echo $awalTgl ?>" size="10">
+                <center><div class="tabel-title">Tabel Data Uji</div></center>
+                <h4>Data Uji Tanggal <?php echo $tglAwal ?>  s/d  <?php echo $tglAkhir ?></h4>
+                <form action="<?php $_SERVER['PHP_SELF']; ?>" method="POST" name="form10" target="_SELF">
+                    <div class="row" style="margin-bottom:20px;margin-top:20px">
+                        <div class="col-lg-3">
+                            <input type="date" style="margin-top:10px" name="txtTglAwal" class="form-control" value="<?php echo $awalTgl ?>" size="10">
+                        </div>
+                        <div class="col-lg-3">
+                            <input type="date" style="margin-top:10px"name="txtTglAkhir" class="form-control" value="<?php echo $akhirTgl ?>" size="10">
+                        </div>
+                        <div class="col-lg-3">
+                            <input type="submit" style="margin-top:10px" name="btnTampil" class="btn btn-success" value="Tampilkan">
+                        </div>  
                     </div>
-                    <div class="col-lg-3">
-                        <input type="date" style="margin-top:10px"name="txtTglAkhir" class="form-control" value="<?php echo $akhirTgl ?>" size="10">
-                    </div>
-                    <div class="col-lg-3">
-                        <input type="submit" style="margin-top:10px" name="btnTampil" class="btn btn-success" value="Tampilkan">
-                    </div>  
-                </div>
-                
+                 
                 </form>
                 <table id="example" class="table table-striped" style="width:100%;">
                 <thead>

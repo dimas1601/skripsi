@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Poppins:wght@400;500;600;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Belanosima&display=swap');
 
 * {
 	margin: 0;
@@ -16,7 +17,7 @@ li {
 :root {
 	--poppins: 'Poppins', sans-serif;
 	--lato: 'Lato', sans-serif;
-
+	--belanosima: 'Belanosima', sans-serif;
 	--blue: #0C3C78;
 	--red: rgb(199,0,57);
 	--yellow: rgba(255, 172, 65, 1);
@@ -81,17 +82,21 @@ body {
 	padding-bottom: 20px;
 	box-sizing: content-box;
 }
-
-#sidebar .brand .bx {
-	min-width: 60px;
-	display: flex;
-	justify-content: center;
+#sidebar .brand img{
+	margin-left: 10px;
+	margin-right: 20px;
+	width: 36px;
+	height: 36px;
+	object-fit: cover;
+	border-radius: 50%;
 }
 
 #sidebar .side-menu {
 	width: 100%;
 	margin-top: 48px;
 }
+
+
 
 #sidebar .side-menu li {
 	height: 48px;
@@ -233,6 +238,11 @@ body {
 	display: flex;
 	align-items: center;
 }
+#content nav b{
+	font-family: var(--belanosima);
+	font-size: 20px;
+color: var(--white);
+}
 /* NAVBAR */
 
 
@@ -249,6 +259,7 @@ body {
 	overflow-y: auto;
 }
 #content main .head-title h1{
+
 	font-size: 25px;
 	margin-bottom: 10px;
 }
@@ -341,15 +352,17 @@ body {
 	/* grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
 	margin: 10px; */
   }
-  .chart-title{
-	margin-top: 50px;
-	margin-bottom: 20px;
-	font-size: 22px;
+  #content main .chart .grafik-title{
+	font-weight: bold;
+	margin-top: 20px;
+	margin-bottom: 15px;
+	font-family: var(--belanosima);
+	font-size: 25px;
   }
 /* GRAFIK */
 
 /* TABEL HISTORI */
-  .tabel{
+#content main .tabel{
 	/* display:block; */
 	/* display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -360,88 +373,130 @@ body {
 	/* height:680px; */
 	/* overflow:auto; */
   }
+  #content main .tabel .tabel-title{
+	font-family: var(--belanosima);
+	font-weight: bold;
+	font-size: 24px;
+  }
+  #content main .tabel h4{
+	/* font-weight: 600; */
+	font-size: 22px;
+	font-family: var(--belanosima);
+
+  }
 /* TABEL HISTORI */
 
-/* PRROFIL USER */
+
+/* PROFIL USER */
 
 
   #content main .data-profil .profil{
-	font-family: var(--poppins);
-  margin-bottom: 10px;
+  	/* margin-bottom: 10px; */
 	border-radius: 15px;
-	margin: 50px 200px;
-	padding: 20px;
+	padding: 30px;
 	background: var(--white);
 	box-shadow: 0 7px 25px rgba(0, 0, 0, 0.3);
   
-  }.kol{
-	margin-top: 10px;
+  }
+  #content main .data-profil .profil .profil-title{
+	font-family: var(--belanosima); 
+	font-size: 23px;
+	font-weight: bold;
+	/* color: var(--white); */
 	
 	margin-bottom: 20px;
-	justify-content: space-around;
+}
+#content main .data-profil .profil .kol{
+	padding-left: 20px;
+	padding-right: 20px;
+	/* height: 30%; */
+	/* background: var(--red); */
+	/* margin-left: 10px; */
+	/* width: max-content; */
 	display: flex;
+	justify-content: space-around;
+
+  }
+
+  #content main .data-profil .profil .kol .form-group{
+	margin: 10px;
+	width: 50%;
+	/* background: var(--green); */
+  }
+   #content main .data-profil .profil .kol .form-group:nth-child(2){
+	padding-left: 20px;
+	 /* background: var(--dark);  */
+  } 
+  #content main .data-profil .profil .kol .form-group .labell{
+/* color: var(--white);	 */
+	font-family: var(--belanosima);
+	font-size: 18px;
+	font-weight: bold;
   }
   
-  .input-form{
-	position: relative;
-	color: var(--white);
+  #content main .data-profil .profil .kol .input-form{
+	padding: 20px;
+/* margin: 10px; */
+	width: 100%;
+	height: 50%;
 	border-radius: 7px;
 	outline: none;
 	border: none;
 	background: var(--blue);
+	color: var(--white);
+	/* position: relative;
+
+	.contoh3::
+}
   width: 350px;
 	padding: 10px;
 	margin-left: 10px;
 	margin-right: 10px;
 	margin-top: 5px;
-	font-size: 15px;
+	font-size: 15px; */
+  }
+  #content main .data-profil .profil .kol .input-form::-webkit-input-placeholder{
+	color: white;
+  }
+  #content main .data-profil .profil .kol-1{
+	margin-top: 10px;
+	margin-left: 30px;
+	/* padding-left: 10px; */
+	padding-right: 20px;
+	display: flex;
+	justify-content: start;
+
   }
   /* .input-form:hover{
 	background: var(--black2);
   } */
-  .labell{
-	font-size: 17px;
-	font-weight: bold;
-	margin-left: 10px;
-  }
   /* buat toogle password */
-  .togel-pass{
-	justify-content: space-around;
-	display: flex;
-  }
-  .pass{
-  top: -62px;
-  left: 349px;
-  font-size: 18px;
-  background: rgba(199,0,57, 1);
-  color: var(--white);
-  padding-top: 5px;
-  padding-bottom: 10px;
-  padding-right: 12px;
-  padding-left: 12px;
-  border-radius: 8px;
-  position: relative;
-  cursor: pointer;
-  }
+
   .tombol{
-	margin-top: 5px;
-	text-align: center;
+	display: flex;
+	justify-content: flex-start;
+	margin-left: 50px;
+	margin-top: 80px;
+	margin-bottom: 80px;
   }
   .btn-1{
+	font-size: 17px;
+	font-family: var(--belanosima);
 	cursor: pointer;
 	border-radius: 8px;
 	margin-top: 20px;
 	margin-bottom: 10px;
-	border: 1px solid rgba(255, 172, 65, 1);
-	background: var(--white);
+	border: none;
+	background: var(--red);	
 	padding: 6px 12px;
-	color: rgba(199,0,57, 1);
+	color: var(--white)
   }
   .btn-1:hover{
 	color: white;
-	border: 1px solid rgba(255, 172, 65, 1);
-	background: rgba(255, 172, 65, 1);
-  }
+	/* border: 1px solid rgba(255, 172, 65, 1); */
+
+	background: var(--blue);  
+}
   /* upload image */
   
    .img{
@@ -449,7 +504,7 @@ body {
 	max-width: 200px;
 	max-height: 220px;
 	width: 100%;
-	background: rgba(199,0,57, 1);
+	background: var(--blue);
 	padding: 15px;
 	border-radius: 20px;
   } 
@@ -471,8 +526,9 @@ body {
 	font-size: 60px;
   }
   .img-area h3 {
-	font-size: 13px;
-	font-weight: 500;
+	font-family: var(--belanosima);
+	font-size: 16px;
+	font-weight: 700;
 	margin-bottom: 6px;
 	color: #000;
   }
@@ -508,19 +564,21 @@ body {
 	opacity: 1;
   }
   .select-image {
+	font-family: var(--belanosima);
+	border: none;
 	display: block;
 	width: 100%;
 	padding: 7px 0;
 	border-radius: 8px;
 	color: rgba(199,0,57, 1);
 	font-weight: bold;
-	font-size: 15px;
+	font-size: 17px;
 	cursor: pointer;
 	transition: all .3s ease;
   }
   .select-image:hover{
 	
-	background:rgba(255, 172, 65, 1);
+	background:var(--red);
 	color: var(--white);
   }
   /* .select-image-footer {
@@ -529,10 +587,7 @@ body {
 	
 	border: 1px solid rgba(199,0,57, 1);
   }  */
-  .kol-1{
-	margin-left: 20px;
-	display: flex;
-  }
+
   .gbr{
 	position: relative;
 	width: 220px;
@@ -543,13 +598,72 @@ body {
   }
   
   .gbr img{
-	position: relative;
+	position: absolute;
 	width: 220px;
 	height: 220px;
 	object-fit: cover;
   }
 /* PROFIL USER */
 
+
+/* REGISTER USER */
+#content main .register{
+	color: var(--white);
+	background: var(--blue);
+	margin-left: 10px;
+	margin-right: 10px;
+	border-radius: 15px;
+	padding: 30px;
+	box-shadow: 0 7px 25px rgba(0, 0, 0, 0.3);
+}
+#content main .register .title{
+	font-family: var(--belanosima);
+	font-size:25px;
+    font-weight: 500;
+    text-align: center;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--white);
+}
+#content main .register .content{
+	margin-top: 20px;
+	display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+	/* padding-top: 10px; */
+	/* display: flex; */
+	/* justify-content: space-around;	 */
+	/* background: var(--red); */
+}
+#content main .register .content .input-box{
+	
+	display: flex;
+    flex-wrap: wrap;
+    width: 50%;
+    padding-bottom: 15px;
+	
+}
+#content main .register .content .input-box label{
+	margin-bottom: 10px;
+	margin-top: 10px;
+}
+
+#content main .register .content .input-box input{
+	margin-left: 10px;
+	width: 100%;
+	height: 40px;
+	border-radius: 5px ;
+	border: none;
+	outline: none;
+	padding: 0 10px;
+
+}
+/* #content main .register .content .input-box input:hover{
+	border: none;
+} */
+#content main .register .content .input-box input:is(:focus,:valid){
+    box-shadow: 0 3px 6px rgba(0,0,0,0,1);
+}
+/* REGISTER USER */
 
 /* MAIN */
 

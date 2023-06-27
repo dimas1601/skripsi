@@ -1,8 +1,3 @@
-<?php
-include "db.php";
-$user=mysqli_query($conn,"SELECT * FROM data_user where id =12");
-$data_user=mysqli_fetch_object($user);
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,27 +34,27 @@ $data_user=mysqli_fetch_object($user);
 <body>
     <!-- SIDEBAR -->
 	<section id="sidebar">
-		<a href="assets/img/f.jpg" target="_blank"class="brand" style="">
+        <a href="assets/img/f.jpg" target="_blank"class="brand" style="">
             <img src="assets/img/f.jpg">
 			<span class="text">Ayam&nbsp&nbspBroiler</span>
 		</a>
 		<ul class="side-menu top">
 			<li class="active">
-				<a href="index.php">
+				<a href="index_admin.php">
 					<i class='bx bxs-dashboard' ></i>
 					<span class="text">Dashboard</span>
 				</a>
 			</li>
 			<li>
-				<a href="histori_user.php">
+				<a href="histori_admin.php">
                     <i class='bx bx-history'></i>
 					<span class="text">History</span>
 				</a>
 			</li>
 			<li>
-				<a href="profil_user.php">
-                    <i class='bx bx-user' ></i>
-					<span class="text">Profil</span>
+				<a href="data_user.php">
+                <i class='bx bxs-user-detail'></i>
+					<span class="text">Data User</span>
 				</a>
 			</li>
 			<li>
@@ -76,12 +71,14 @@ $data_user=mysqli_fetch_object($user);
 		<!-- NAVBAR -->
 		<nav>
 			<i class='bx bx-menu' ></i>
+			<b>Admin</b>
 			
-			<b><?php echo ucfirst($data_user->nama_depan)." ".ucfirst($data_user->nama_belakang) ?></b></b>
 			<div class="nav-right">
 				<input type="checkbox" id="switch-mode" hidden>
 				<label for="switch-mode" class="switch-mode"></label>
-				<a class="profile"href="assets/foto/<?php echo $data_user->foto ?>" target="_blank"><img src="assets/foto/<?php echo $data_user->foto ?>"  ></a>
+				<a href="#" class="profile">
+					<img src="assets/img/yusuf.jpg">
+				</a>
 			</div>
 			
 		</nav>
@@ -103,7 +100,7 @@ $data_user=mysqli_fetch_object($user);
 
 			<!-- grafik -->
 			<div class="chart">
-                  <center><div class="grafik-title">Grafik Monitoring Kandang Ayam Broiler</div></center>
+			<center><div class="grafik-title">Grafik Monitoring Kandang Ayam Broiler</div></center>
                     <div id="responsecontainer" class="grafik" text-align:center">
             </div>
 			
