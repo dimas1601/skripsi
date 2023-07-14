@@ -2,10 +2,10 @@
 error_reporting(0);
 session_start();
 include "db.php";
-if($_SESSION['status_login'] != true){
+if($_SESSION['login'] != true){
 	echo '<script>window.location="login.php"</script>';
 }
-$user=mysqli_query($conn,"SELECT * FROM data_user where id ='".$_SESSION['id_user']."'");
+$user=mysqli_query($conn,"SELECT * FROM data_user where id ='".$_GET['id_user']."'");
 $data_user=mysqli_fetch_object($user);
 
 ?>
@@ -33,57 +33,6 @@ $data_user=mysqli_fetch_object($user);
     
 </head>
 <body>
-<?php 
-        $_SESSION['update']=true;
-        $_SESSION['status_update']=$_SESSION['status_update']+$_SESSION['update'];
-        $updateInt = (int)$_SESSION['status_update'];
-        // echo $updateInt;
-        if($updateInt == 3){
-            $_SESSION['status_update']=0;
-            $_SESSION['update']=0;
-            ?>
-                      <script >
-                            swal({
-                                title:"Update Success",
-                                text:"Update Data Berhasil",
-                                icon: "success",
-                                button:"OK"
-                            })
-        
-                            
-                        </script> 
-            
-            <?php 
-            }
-            else if($updateInt == 4){
-                $_SESSION['status_update']=0;
-                $_SESSION['update']=0;
-                ?>
-                          <script >
-                                swal({
-                                    title:"Update Failed",
-                                    text:"Format File Tidak Diizinkan",
-                                    icon: "error",
-                                    button:"OK"
-                                })
-            
-                                
-                            </script> 
-                <?php 
-            }else if($updateInt==5){?>
-                <script>
-                swal({
-                    title:"Update Failed",
-                    text:"Image size more than 5MB",
-                    icon: "error",
-                    button:"OK"
-                })
-        </script>
-        <?php    }
-            else{
-                $_SESSION['update']=0;
-                $_SESSION['status_update']=0;
-            } ?> 
     <!-- SIDEBAR -->
 	<section id="sidebar">
         <a href="assets/img/f.jpg" target="_blank"class="brand" style="">
@@ -92,13 +41,13 @@ $data_user=mysqli_fetch_object($user);
 		</a>
 		<ul class="side-menu top">
         <li>
-			<button onclick="window.location.href='index.php'">
+			<button onclick="window.location.href='index_admin.php'">
 				<i class='bx bxs-dashboard' ></i>
 				<span class="text">Dashboard</span>	
 			</button>
 			</li>
 			<li>
-				<button onclick="window.location.href='histori_user.php'">
+				<button onclick="window.location.href='histori_admin.php'">
 					<i class='bx bx-history'></i>
 					<span class="text">History</span>
 				</button>
@@ -107,12 +56,10 @@ $data_user=mysqli_fetch_object($user);
 				<!-- </a> -->
 			</li>
 			<li  class="active">
-				<button onclick="window.location.href='profil_user.php'">
+				<button onclick="window.location.href='data_user.php'">
                     <i class='bx bx-user' ></i>
-					<span class="text">Profil</span>
+					<span class="text">Data User</span>
 				</button>
-				<!-- <a href="profil_user.php"> -->
-				<!-- </a> -->
 			</li>
 			<li>
 				<button onclick="contoh()">
@@ -198,7 +145,7 @@ $data_user=mysqli_fetch_object($user);
 
                   <div class="kol-1">
                     
-                        <div class="gbr">
+                    <div class="gbr">
                             <a href="assets/foto/<?php echo $data_user->foto ?>" target="_blank"><img src="assets/foto/<?php echo $data_user->foto ?>" alt="" ></a>
                         </div>
                         <div class="img">
@@ -241,25 +188,27 @@ $data_user=mysqli_fetch_object($user);
                         <script >
                             swal({
                                 title:"Update Failed",
-                                text:"Username Sudah Terdaftar",
+                                text:"Email Sudah Terdaftar",
                                 icon: "error",
                                 button:"OK"
                             })
                         </script>
                     <?php
                     }else if(strtolower($email)=="admin@gmail.com"){?>
-                        <script >
+                     <script >
                             swal({
                                 title:"Update Failed",
-                                text:"Username Sudah Terdaftar",
+                                text:"Email Tidak Boleh Dipakai",
                                 icon: "error",
                                 button:"OK"
                             })
                         </script>
+
                     <?php }
-                      // ada di database tapi sama dengan yang lama
+                    // ada di database tapi sama dengan yang lama
                 // ga ada di database + ga sama dengan yang lama
-                    else{
+                else{
+                        // apakah user ganti gambar
                     if($filename!=""){
                         $type1 = explode('.', $filename);
                         $type2 = $type1[1];
@@ -272,50 +221,65 @@ $data_user=mysqli_fetch_object($user);
 
                             // validasi format file
                             if(!in_array($type2, $tipe_diizinkan)){
-                                $namagambar=$data_user->foto;
-                                // jika format file tidak ada di dalam tipe diizinkan
-                                $_SESSION['status_update']=3;
-                                echo '<script>window.location="profil_user.php"</script>';
-                                // $kondisi=0;
-    
+                                $namagambar=$data_user->foto;?>
+                                <!-- // jika format file tidak ada di dalam tipe diizinkan
+                                $_SESSION['status_failed']=2;
+                                // echo '<script>window.location="data_user.php"</script>';
+                                // $kondisi=0; -->
+                                <script >
+                                    swal({
+                                        title:"Update Failed",
+                                        text:"Format File Tidak Diizinkan",
+                                        icon: "error",
+                                        button:"OK"
+                                    })
+                                </script> 
+                            <?php 
     
                             }else{
                                 
                                 // size gambar
                                 if($size<=2000000){
-                                // jika format file sesuai dengan yang ada di dalam arraytipe diizinkan
-                                // proses upload file sekaligus insert ke database
-                                move_uploaded_file($tmp_name,'./assets/foto/'.$newname);
-                                unlink('./assets/foto/'.$data_user->foto);
-                                $namagambar=$newname;
-                                $update = mysqli_query($conn,"UPDATE data_user SET 
-                                nama_depan='".$nama_dpn."',
-                                nama_belakang='".$nama_belakang."',
-                                email='".$email."',
-                                password='".$pass."',
-                                no_hp='".$hp."',
-                                alamat='".$alamat."',
-                                foto='".$namagambar."'
-                                WHERE id='".$data_user->id."'");
-                            }else{
-                                $_SESSION['status_update']=4;
-                                echo '<script>window.location="profil_user.php"</script>';
-                             }
-                            if($update){
-                                $_SESSION['status_update']=2;
-                                echo '<script>window.location="profil_user.php"</script>';
-                             
+                                        // proses upload file sekaligus insert ke database
+                                        move_uploaded_file($tmp_name,'./assets/foto/'.$newname);
+                                        unlink('./assets/foto/'.$data_user->foto);
+                                        $namagambar=$newname;
+                                        $update = mysqli_query($conn,"UPDATE data_user SET 
+                                        nama_depan='".$nama_dpn."',
+                                        nama_belakang='".$nama_belakang."',
+                                        email='".$email."',
+                                        password='".$pass."',
+                                        no_hp='".$hp."',
+                                        alamat='".$alamat."',
+                                        foto='".$namagambar."'
+                                        WHERE id='".$data_user->id."'");
+                                        if($update){
+                                            $_SESSION['status_update']=2;
+                                            echo '<script>window.location="data_user.php"</script>';
+                                        
+                                        }else{?>
+                                            <script>
+                                                swal({
+                                                title:"Update Failed",
+                                                text:"Update Data Gagal",
+                                                icon: "error",
+                                                button:"OK"
+                                            })
+                        
+                                            </script>
+                                    <?php }
                             }else{?>
-                                <script>
+                            <script>
                                     swal({
-                                    title:"Update Failed",
-                                    text:"Update Data Gagal",
-                                    icon: "error",
-                                    button:"OK"
-                                })
-            
-                                </script>
-                           <?php }
+                                        title:"Update Failed",
+                                        text:"Image size more than 5MB",
+                                        icon: "error",
+                                        button:"OK"
+                                    })
+                            </script>
+                            <?php
+                             }
+                          
                             }
                        
                        
@@ -333,7 +297,7 @@ $data_user=mysqli_fetch_object($user);
                         WHERE id='".$data_user->id."'");
                     if($update){
                         $_SESSION['status_update']=2;
-                        echo '<script>window.location="profil_user.php"</script>';
+                        echo '<script>window.location="data_user.php"</script>';
                      
                     }else{?>
                         <script>
@@ -347,11 +311,11 @@ $data_user=mysqli_fetch_object($user);
                                 </script>
                    <?php }
                     }
+                }
                     
                    
                     // echo '<script>window.location="histori_user.php"</script>';
                 }
-            }
             ?>
         </div>
         </div>

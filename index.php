@@ -1,6 +1,12 @@
 <?php
+error_reporting(0);
+session_start();
 include "db.php";
-$user=mysqli_query($conn,"SELECT * FROM data_user where id =12");
+if($_SESSION['status_login'] != true){
+	echo '<script>window.location="login.php"</script>';
+}
+
+$user=mysqli_query($conn,"SELECT * FROM data_user where id ='".$_SESSION['id_user']."'");
 $data_user=mysqli_fetch_object($user);
 ?>
 <!DOCTYPE html>
@@ -9,6 +15,8 @@ $data_user=mysqli_fetch_object($user);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Monitoring Kandang Ayam Broiler</title>
+	<!-- ALERT -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <!-- Boxicons -->
 	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
 	<!-- icon google -->
@@ -37,6 +45,20 @@ $data_user=mysqli_fetch_object($user);
     </script>
 </head>
 <body>
+	<!-- ALERT -->
+	<?php	if($_SESSION['alert'] == true){?>
+	<script>
+		swal({
+			title:"Login Success",
+			text:"Anda Berhasil Login",
+			icon: "success",
+			button:"OK"
+		})
+	</script>
+	
+	<?php 
+	$_SESSION['alert']=false;
+	} ?>
     <!-- SIDEBAR -->
 	<section id="sidebar">
 		<a href="assets/img/f.jpg" target="_blank"class="brand" style="">
@@ -45,28 +67,51 @@ $data_user=mysqli_fetch_object($user);
 		</a>
 		<ul class="side-menu top">
 			<li class="active">
-				<a href="index.php">
-					<i class='bx bxs-dashboard' ></i>
-					<span class="text">Dashboard</span>
-				</a>
+			<button onclick="window.location.href='index.php'">
+				<i class='bx bxs-dashboard' ></i>
+				<span class="text">Dashboard</span>	
+			</button>
 			</li>
 			<li>
-				<a href="histori_user.php">
-                    <i class='bx bx-history'></i>
+				<button onclick="window.location.href='histori_user.php'">
+					<i class='bx bx-history'></i>
 					<span class="text">History</span>
-				</a>
+				</button>
+				<!-- <a href="histori_user.php"> -->
+                    
+				<!-- </a> -->
 			</li>
 			<li>
-				<a href="profil_user.php">
+				<button onclick="window.location.href='profil_user.php'">
                     <i class='bx bx-user' ></i>
 					<span class="text">Profil</span>
-				</a>
+				</button>
+				<!-- <a href="profil_user.php"> -->
+				<!-- </a> -->
 			</li>
 			<li>
-				<a href="#">
-                    <i class='bx bx-log-out'></i>
-					<span class="text">Logout</span>
-				</a>
+				<button onclick="contoh()">
+					<i class='bx bx-log-out'></i>
+					<span class="text" >Logout</span>
+				</button>
+				<script>
+					function contoh(){
+						swal({
+							title: "Are You Sure?",
+							text: "Are you sure you want to logout",
+							icon: "warning",
+							buttons: true,
+							dangerMode: true,
+							})
+							.then((willDelete) => {
+							if (willDelete) {
+								window.location = "logout.php";
+							} else {
+								// window.location="index.php"
+							}
+							});
+					}
+					</script>
 			</li>
 		</ul>
 	</section>

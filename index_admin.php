@@ -1,9 +1,19 @@
+<?php
+error_reporting(0);
+session_start();
+include "db.php";
+if($_SESSION['login'] != true){
+	echo '<script>window.location="login.php"</script>';
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Monitoring Kandang Ayam Broiler</title>
+	<!-- ALERT -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <!-- Boxicons -->
 	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
 	<!-- icon google -->
@@ -32,36 +42,73 @@
     </script>
 </head>
 <body>
+	<!-- ALERT -->
+	<?php	if($_SESSION['alert'] == true){?>
+	<script>
+		swal({
+			title:"Login Success",
+			text:"Anda Berhasil Login",
+			icon: "success",
+			button:"OK"
+		})
+	</script>
+	
+	<?php 
+	$_SESSION['alert']=false;
+	} ?>
     <!-- SIDEBAR -->
 	<section id="sidebar">
-        <a href="assets/img/f.jpg" target="_blank"class="brand" style="">
+		<a href="assets/img/f.jpg" target="_blank"class="brand" style="">
             <img src="assets/img/f.jpg">
 			<span class="text">Ayam&nbsp&nbspBroiler</span>
 		</a>
 		<ul class="side-menu top">
 			<li class="active">
-				<a href="index_admin.php">
-					<i class='bx bxs-dashboard' ></i>
-					<span class="text">Dashboard</span>
-				</a>
+			<button onclick="window.location.href='index_admin.php'">
+				<i class='bx bxs-dashboard' ></i>
+				<span class="text">Dashboard</span>	
+			</button>
 			</li>
 			<li>
-				<a href="histori_admin.php">
-                    <i class='bx bx-history'></i>
+				<button onclick="window.location.href='histori_admin.php'">
+					<i class='bx bx-history'></i>
 					<span class="text">History</span>
-				</a>
+				</button>
+				<!-- <a href="histori_user.php"> -->
+                    
+				<!-- </a> -->
 			</li>
 			<li>
-				<a href="data_user.php">
-                <i class='bx bxs-user-detail'></i>
+				<button onclick="window.location.href='data_user.php'">
+                    <i class='bx bx-user' ></i>
 					<span class="text">Data User</span>
-				</a>
+				</button>
+				<!-- <a href="profil_user.php"> -->
+				<!-- </a> -->
 			</li>
 			<li>
-				<a href="#">
-                    <i class='bx bx-log-out'></i>
-					<span class="text">Logout</span>
-				</a>
+				<button onclick="logout()">
+					<i class='bx bx-log-out'></i>
+					<span class="text" >Logout</span>
+				</button>
+				<script>
+					function logout(){
+						swal({
+							title: "Are You Sure?",
+							text: "Are you sure you want to logout",
+							icon: "warning",
+							buttons: true,
+							dangerMode: true,
+							})
+							.then((willDelete) => {
+							if (willDelete) {
+								window.location = "logout.php";
+							} else {
+								// window.location="index.php"
+							}
+							});
+					}
+					</script>
 			</li>
 		</ul>
 	</section>

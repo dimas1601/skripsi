@@ -1,6 +1,11 @@
 
 <?php
+error_reporting(0);
+session_start();
 include "db.php";
+if($_SESSION['login'] != true){
+	echo '<script>window.location="login.php"</script>';
+}
 $user = mysqli_query($conn,"SELECT * FROM data_user");
 ?>
 <!DOCTYPE html>
@@ -9,6 +14,8 @@ $user = mysqli_query($conn,"SELECT * FROM data_user");
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data User</title>
+    <!-- ALERT -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <!-- Boxicons -->
 	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
 	<!-- icon google -->
@@ -23,6 +30,87 @@ $user = mysqli_query($conn,"SELECT * FROM data_user");
     <script defer src="assets/js/data-user.js"></script> 
 </head>
 <body>
+    <!-- ALERT TAMBAH DATA -->
+    <?php
+        $_SESSION['register']=true;
+        $_SESSION['status_register']=$_SESSION['status_register']+$_SESSION['register'];
+        $registerInt = (int)$_SESSION['status_register'];
+        if($registerInt == 3){
+            $_SESSION['status_register']=0;
+            $_SESSION['register']=0;
+            ?>
+                      <script >
+                            swal({
+                                title:"Register Success",
+                                text:"Berhasil Menambahkan Data User",
+                                icon: "success",
+                                button:"OK"
+                            })
+        
+                            
+                        </script> 
+            
+            <?php 
+            }else{
+                $_SESSION['status_register']=0;
+                 $_SESSION['register']=0;
+            }
+
+            // ALERT UPDATE
+            $_SESSION['update']=true;
+            $_SESSION['status_update']=$_SESSION['status_update']+$_SESSION['update'];
+            $updateInt = (int)$_SESSION['status_update'];
+            if($updateInt == 3){
+                $_SESSION['status_update']=0;
+                $_SESSION['update']=0;
+                ?>
+                          <script >
+                                swal({
+                                    title:"Update Success",
+                                    text:"Berhasil Mengupdate Data User",
+                                    icon: "success",
+                                    button:"OK"
+                                })
+            
+                                
+                            </script> 
+                
+                <?php 
+                }else{
+                    $_SESSION['status_update']=0;
+                    $_SESSION['update']=0;
+                }
+            
+            ?>
+
+            <?php
+            // ALERT HAPUS
+            $_SESSION['hapus']=true;
+            $_SESSION['status_hapus']=$_SESSION['status_hapus']+$_SESSION['hapus'];
+            $hapusInt = (int)$_SESSION['status_hapus'];
+            if($hapusInt == 3){
+                $_SESSION['status_hapus']=0;
+                $_SESSION['hapus']=0;
+                ?>
+                          <script >
+                                swal({
+                                    title:"Delete Success",
+                                    text:"Berhasil Menghapus Data User",
+                                    icon: "success",
+                                    button:"OK"
+                                })
+            
+                                
+                            </script> 
+                
+                <?php 
+                }
+                else{
+                    $_SESSION['status_hapus']=0;
+                    $_SESSION['hapus']=0;
+                }
+            
+            ?>
     <!-- SIDEBAR -->
 	<section id="sidebar">
 		<a href="assets/img/f.jpg" target="_blank"class="brand" style="">
@@ -31,28 +119,51 @@ $user = mysqli_query($conn,"SELECT * FROM data_user");
 		</a>
 		<ul class="side-menu top">
 			<li >
-				<a href="index_admin.php">
-					<i class='bx bxs-dashboard' ></i>
-					<span class="text">Dashboard</span>
-				</a>
+			<button onclick="window.location.href='index_admin.php'">
+				<i class='bx bxs-dashboard' ></i>
+				<span class="text">Dashboard</span>	
+			</button>
 			</li>
 			<li>
-				<a href="histori_admin.php">
-                    <i class='bx bx-history'></i>
+				<button onclick="window.location.href='histori_admin.php'">
+					<i class='bx bx-history'></i>
 					<span class="text">History</span>
-				</a>
+				</button>
+				<!-- <a href="histori_user.php"> -->
+                    
+				<!-- </a> -->
 			</li>
 			<li class="active">
-				<a href="data_user.php">
-                <i class='bx bxs-user-detail'></i>
+				<button onclick="window.location.href='data_user.php'">
+                    <i class='bx bx-user' ></i>
 					<span class="text">Data User</span>
-				</a>
+				</button>
+				<!-- <a href="profil_user.php"> -->
+				<!-- </a> -->
 			</li>
 			<li>
-				<a href="#">
-                    <i class='bx bx-log-out'></i>
-					<span class="text">Logout</span>
-				</a>
+				<button onclick="contoh()">
+					<i class='bx bx-log-out'></i>
+					<span class="text" >Logout</span>
+				</button>
+				<script>
+					function contoh(){
+						swal({
+							title: "Are You Sure?",
+							text: "Are you sure you want to logout",
+							icon: "warning",
+							buttons: true,
+							dangerMode: true,
+							})
+							.then((willDelete) => {
+							if (willDelete) {
+								window.location = "logout.php";
+							} else {
+								// window.location="index.php"
+							}
+							});
+					}
+					</script>
 			</li>
 		</ul>
 	</section>
@@ -108,8 +219,29 @@ $user = mysqli_query($conn,"SELECT * FROM data_user");
                             <td><?php echo $data_user['no_hp'] ?></td>
                             <td><?php echo $data_user['alamat'] ?></td>
                             <td><a href="assets/foto/<?php echo $data_user['foto'] ?>" target="_blank"><img src="assets/foto/<?php echo $data_user['foto'] ?>" alt="" style="object-fit: cover;width:100px;height:100px;border-radius:10px"></a></td>
-                            <td><button class="btn btn-sm btn-warning" style="width:60px"><b>Edit</b></button> || <a href="hapus.php?id_user=<?php echo $data_user['id']?>" onclick="return confirm('Yakin Hapus?')"><button style="width:60px" class="btn btn-sm btn-danger"><b>Hapus</b></button></a></td>
+                            <td><a style="text-decoration:none" href="edit_admin.php?id_user=<?php echo $data_user['id']?>">
+                            <button class="btn btn-sm btn-warning" style="width:60px"><b>Edit</b></button> </a> || 
+                            <button style="width:60px" class="btn btn-sm btn-danger" onclick="hapus(<?php echo $data_user['id']?>)" ><b>Hapus</b></button> 
+                            <script>
+                            function hapus(id){
+                                swal({
+                                    title: "Are You Sure?",
+                                    text: "Are you sure you want to delete",
+                                    icon: "warning",
+                                    buttons: true,
+                                    dangerMode: true,
+                                    })
+                                    .then((willDelete) => {
+                                    if (willDelete) {
+                                    window.location = 'hapus.php?id_user='+id;
+                                    } else {
+                                    }
+                                    });
+                            }
+                            </script></td>
+                            
                         </tr>
+                       
                     <?php
                     $no++;
                         }
@@ -125,7 +257,7 @@ $user = mysqli_query($conn,"SELECT * FROM data_user");
 		
 	</section>
 	<!-- CONTENT -->
-	
+   
     <script src="assets/js/script.js"></script>
 </body>
 </html>
